@@ -1,0 +1,23 @@
+066histogram - popis parametrù
+
+Z následující skupiny lze použít libovolnou kombinaci:
+red - èervená z modelu RGB
+green - zelená z modelu RGB
+blue - modrá z modelu RGB
+gray - šedá (intenzita) spoètená metodou RgbToGray
+
+Následující parametry se používají samostatnì:
+hue - hue z modelu HSV
+sat - saturation z modelu HSV
+val - value z modelu HSV
+
+Ke každé kombinaci parametrù lze navíc pøipsat:
+log - zpùsobí vykreslení v logaritmické škále (o základu e)
+To se hodí pøi zobrazování hue, je pak vidìt, které barvy jsou alespoò nìjak zastoupeny. Napø. Když je modré pozadí (obloha), tak modrá pøebije všechno a ostatní barvy jsou v normálním zobrazení prakticky na nule.
+
+Pokud sat=0 nebo val=0, hodnota hue se vùbec nevykreslí (byla by zavádìjící).
+
+Pøi zobrazení sat je na ose x znázornìna barevná škála odpovídající val=1 a pøíslušné hodnotì sat.
+
+Pøi zobrazení val je na ose x znázornìna barevná škála odpovídající sat=1 a pøíslušné hodnotì val.
+

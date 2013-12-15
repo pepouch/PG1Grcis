@@ -29,20 +29,44 @@ namespace _069subdivision
     {
     }
 
+    private static List<Vector2d> Refine(List<Vector2d> P)
+    {
+        List<Vector2d> Q = new List<Vector2d>();
+        for (int i = 0; i < P.Count - 1; i++)
+        {
+            Q.Add((1-ChaikinCoef) * P[i] + ChaikinCoef * P[i + 1]);
+            Q.Add(ChaikinCoef * P[i] + (1-ChaikinCoef) * P[i + 1]);
+        }
+        if (P[0] == P[P.Count - 1])
+        {
+            Q.Add((1-ChaikinCoef) * P[0] + ChaikinCoef * P[1]);
+        }
+        return Q;
+    }
+
     /// <summary>
     /// Draw one subdivision curve.
     /// </summary>
     /// <param name="output">Target bitmap.</param>
     /// <param name="P">Array of control points.</param>
     /// <param name="col">Drawing color.</param>
-    public static void DrawCurve ( Bitmap output, List<Vector2d> P, Color col )
+    public static void DrawCurve ( Bitmap output, List<Vector2d> P, Color col, int levelsCount = 0 )
     {
       // !!!{{ TODO: write your own subdivision curve rasterization code here
+      if (levelsCount > 0)
+      {
+        DrawCurve(output, Refine(P), col, levelsCount - 1);
+        return;
+      }
 
-      int i;
-      for ( i = 0; i < P.Count - 1; i++ )
-        Draw.Line( output, (int)Math.Round( P[ i ].X ), (int)Math.Round( P[ i ].Y ), (int)Math.Round( P[ i + 1 ].X ), (int)Math.Round( P[ i + 1 ].Y ), col );
+      Graphics gfx = Graphics.FromImage(output);
+      gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+      Pen pen = new Pen(col);
 
+      for (int i = 0; i < P.Count - 1; i++)
+          //Draw.Line( output, (int)Math.Round( P[ i ].X ), (int)Math.Round( P[ i ].Y ), (int)Math.Round( P[ i + 1 ].X ), (int)Math.Round( P[ i + 1 ].Y ), col );
+          gfx.DrawLine(pen, (float)P[i].X, (float)P[i].Y, (float)P[i+1].X, (float)P[i+1].Y );
+      gfx.Dispose();
       // !!!}}
     }
 
@@ -54,6 +78,14 @@ namespace _069subdivision
     public static void TestImage ( Bitmap output, string param )
     {
       // !!!{{ TODO: write your own test-image drawing here
+        try
+        {
+            SetParam("coef", Convert.ToDouble(param));
+        }
+        catch
+        {
+            ;
+        }
 
       int width  = output.Width;
       int height = output.Height;
@@ -65,7 +97,8 @@ namespace _069subdivision
       P.Add( new Vector2d( width * 0.07, height * 0.86 ) );
       P.Add( new Vector2d( width * 0.05, height * 0.06 ) );
 
-      DrawCurve( output, P, Color.White );
+      DrawCurve( output, P, Color.Gray );
+      DrawCurve(output, P, Color.White, 8);
 
       P.Clear();
       P.Add( new Vector2d( width * 0.55, height * 0.76 ) );
@@ -76,7 +109,8 @@ namespace _069subdivision
       P.Add( new Vector2d( width * 0.95, height * 0.76 ) );
       P.Add( new Vector2d( width * 0.95, height * 0.76 ) );
 
-      DrawCurve( output, P, Color.Yellow );
+      DrawCurve( output, P, Color.DarkOrange );
+      DrawCurve(output, P, Color.Yellow, 8);
 
       // !!!}}
     }

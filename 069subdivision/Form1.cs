@@ -70,5 +70,17 @@ namespace _069subdivision
       Subdivision.SetParam("niter", trackBar2.Value);
       doRedraw();
     }
+
+    private void trackBar3_Scroll(object sender, EventArgs e)
+    {
+      Subdivision.SetParam("width", (double)trackBar3.Value);
+      doRedraw();
+    }
+
+    private void checkBox1_CheckedChanged(object sender, EventArgs e)
+    {
+      Subdivision.SetParam("polygon", checkBox1.Checked);
+      doRedraw();
+    }
   }
 }

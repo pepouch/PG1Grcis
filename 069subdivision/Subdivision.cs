@@ -15,6 +15,8 @@ namespace _069subdivision
 
     static double ChaikinCoef = 0.25;
     static int nIterations = 5;
+    static float lineWidth = 1f;
+    static bool showControlPolygon = true;
 
     public static void SetParam(string name, int value)
     {
@@ -26,10 +28,14 @@ namespace _069subdivision
     {
       if (name.Equals("coef", StringComparison.InvariantCultureIgnoreCase))
         ChaikinCoef = value;
+      if (name.Equals("width", StringComparison.InvariantCultureIgnoreCase))
+        lineWidth = (float)value;
     }
 
     public static void SetParam(string name, bool value)
     {
+      if (name.Equals("polygon", StringComparison.InvariantCultureIgnoreCase))
+        showControlPolygon = value;
     }
 
     private static List<Vector2d> Refine(List<Vector2d> P)
@@ -64,7 +70,7 @@ namespace _069subdivision
 
       Graphics gfx = Graphics.FromImage(output);
       gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-      Pen pen = new Pen(col);
+      Pen pen = new Pen(col, lineWidth);
 
       for (int i = 0; i < P.Count - 1; i++)
         //Draw.Line( output, (int)Math.Round( P[ i ].X ), (int)Math.Round( P[ i ].Y ), (int)Math.Round( P[ i + 1 ].X ), (int)Math.Round( P[ i + 1 ].Y ), col );
@@ -100,7 +106,8 @@ namespace _069subdivision
       //P.Add( new Vector2d( width * 0.07, height * 0.86 ) );
       P.Add(new Vector2d(width * 0.05, height * 0.06));
 
-      DrawCurve(output, P, Color.Gray);
+      if (showControlPolygon)
+        DrawCurve(output, P, Color.Gray);
       DrawCurve(output, P, Color.White, nIterations);
 
       P.Clear();
@@ -112,7 +119,8 @@ namespace _069subdivision
       P.Add(new Vector2d(width * 0.95, height * 0.76));
       P.Add(new Vector2d(width * 0.95, height * 0.76));
 
-      DrawCurve(output, P, Color.DarkOrange);
+      if (showControlPolygon)
+        DrawCurve(output, P, Color.DarkOrange);
       DrawCurve(output, P, Color.Yellow, nIterations);
 
       // !!!}}

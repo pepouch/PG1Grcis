@@ -15,10 +15,21 @@ namespace _069subdivision
       InitializeComponent();
       String[] tok = "$Rev: 251 $".Split(' ');
       Text += " (rev: " + tok[1] + ')';
+      doRedraw();
     }
 
     private void buttonRedraw_Click(object sender, EventArgs e)
     {
+      if (Subdivision.getDrawUserPoints())
+      {
+        buttonRedraw.Text = "Draw user input";
+        Subdivision.setDrawUserPoints(false);
+      }
+      else
+      {
+        buttonRedraw.Text = "Draw demo";
+        Subdivision.setDrawUserPoints(true);
+      }
       doRedraw();
     }
 
@@ -80,6 +91,24 @@ namespace _069subdivision
     private void checkBox1_CheckedChanged(object sender, EventArgs e)
     {
       Subdivision.SetParam("polygon", checkBox1.Checked);
+      doRedraw();
+    }
+
+    private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+    {
+      Subdivision.AddUserPoint(e.X, e.Y);
+      doRedraw();
+    }
+
+    private void button1_Click(object sender, EventArgs e)
+    {
+      Subdivision.ClearUserPoints();
+      doRedraw();
+    }
+
+    private void button2_Click(object sender, EventArgs e)
+    {
+      Subdivision.CloseUserPoints();
       doRedraw();
     }
   }

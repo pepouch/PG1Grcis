@@ -46,6 +46,8 @@
       this.checkBox1 = new System.Windows.Forms.CheckBox();
       this.label6 = new System.Windows.Forms.Label();
       this.trackBar3 = new System.Windows.Forms.TrackBar();
+      this.button1 = new System.Windows.Forms.Button();
+      this.button2 = new System.Windows.Forms.Button();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -70,17 +72,18 @@
       // 
       // pictureBox1
       // 
-      this.pictureBox1.Location = new System.Drawing.Point(-3, -1);
+      this.pictureBox1.Location = new System.Drawing.Point(3, 3);
       this.pictureBox1.Name = "pictureBox1";
       this.pictureBox1.Size = new System.Drawing.Size(680, 380);
       this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
       this.pictureBox1.TabIndex = 2;
       this.pictureBox1.TabStop = false;
+      this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
       // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(19, 300);
+      this.label2.Location = new System.Drawing.Point(19, 435);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(40, 13);
       this.label2.TabIndex = 6;
@@ -90,16 +93,16 @@
       // 
       this.buttonRedraw.Location = new System.Drawing.Point(21, 330);
       this.buttonRedraw.Name = "buttonRedraw";
-      this.buttonRedraw.Size = new System.Drawing.Size(79, 23);
+      this.buttonRedraw.Size = new System.Drawing.Size(92, 23);
       this.buttonRedraw.TabIndex = 13;
-      this.buttonRedraw.Text = "Redraw";
+      this.buttonRedraw.Text = "Draw user input";
       this.buttonRedraw.UseVisualStyleBackColor = true;
       this.buttonRedraw.Click += new System.EventHandler(this.buttonRedraw_Click);
       // 
       // buttonSave
       // 
       this.buttonSave.Enabled = false;
-      this.buttonSave.Location = new System.Drawing.Point(21, 371);
+      this.buttonSave.Location = new System.Drawing.Point(22, 459);
       this.buttonSave.Name = "buttonSave";
       this.buttonSave.Size = new System.Drawing.Size(108, 23);
       this.buttonSave.TabIndex = 14;
@@ -109,7 +112,7 @@
       // 
       // textParam
       // 
-      this.textParam.Location = new System.Drawing.Point(65, 298);
+      this.textParam.Location = new System.Drawing.Point(65, 433);
       this.textParam.Name = "textParam";
       this.textParam.Size = new System.Drawing.Size(135, 20);
       this.textParam.TabIndex = 15;
@@ -117,7 +120,7 @@
       // labelElapsed
       // 
       this.labelElapsed.AutoSize = true;
-      this.labelElapsed.Location = new System.Drawing.Point(119, 335);
+      this.labelElapsed.Location = new System.Drawing.Point(24, 284);
       this.labelElapsed.Name = "labelElapsed";
       this.labelElapsed.Size = new System.Drawing.Size(48, 13);
       this.labelElapsed.TabIndex = 16;
@@ -138,9 +141,11 @@
       // 
       this.trackBar2.LargeChange = 1;
       this.trackBar2.Location = new System.Drawing.Point(96, 129);
+      this.trackBar2.Minimum = 1;
       this.trackBar2.Name = "trackBar2";
       this.trackBar2.Size = new System.Drawing.Size(104, 45);
       this.trackBar2.TabIndex = 18;
+      this.trackBar2.Value = 5;
       this.trackBar2.Scroll += new System.EventHandler(this.trackBar2_Scroll);
       // 
       // numericYres
@@ -249,16 +254,41 @@
       // 
       this.trackBar3.LargeChange = 1;
       this.trackBar3.Location = new System.Drawing.Point(96, 170);
+      this.trackBar3.Maximum = 20;
+      this.trackBar3.Minimum = 1;
       this.trackBar3.Name = "trackBar3";
       this.trackBar3.Size = new System.Drawing.Size(104, 45);
       this.trackBar3.TabIndex = 22;
+      this.trackBar3.Value = 1;
       this.trackBar3.Scroll += new System.EventHandler(this.trackBar3_Scroll);
+      // 
+      // button1
+      // 
+      this.button1.Location = new System.Drawing.Point(21, 359);
+      this.button1.Name = "button1";
+      this.button1.Size = new System.Drawing.Size(89, 23);
+      this.button1.TabIndex = 24;
+      this.button1.Text = "Clear user input";
+      this.button1.UseVisualStyleBackColor = true;
+      this.button1.Click += new System.EventHandler(this.button1_Click);
+      // 
+      // button2
+      // 
+      this.button2.Location = new System.Drawing.Point(22, 388);
+      this.button2.Name = "button2";
+      this.button2.Size = new System.Drawing.Size(88, 23);
+      this.button2.TabIndex = 25;
+      this.button2.Text = "Close polygon";
+      this.button2.UseVisualStyleBackColor = true;
+      this.button2.Click += new System.EventHandler(this.button2_Click);
       // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1055, 663);
+      this.Controls.Add(this.button2);
+      this.Controls.Add(this.button1);
       this.Controls.Add(this.label6);
       this.Controls.Add(this.trackBar3);
       this.Controls.Add(this.checkBox1);
@@ -312,6 +342,8 @@
     private System.Windows.Forms.CheckBox checkBox1;
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.TrackBar trackBar3;
+    private System.Windows.Forms.Button button1;
+    private System.Windows.Forms.Button button2;
   }
 }
 

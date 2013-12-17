@@ -90,10 +90,10 @@ namespace _069subdivision
     public static void DrawCurve(Bitmap output, List<Vector2d> P, Color col, int levelsCount = 0)
     {
       // !!!{{ TODO: write your own subdivision curve rasterization code here
-      if (P.Count < 2)
+      if (P.Count < 1)
         return;
 
-      if (levelsCount > 0)
+      if (levelsCount > 0 && P.Count >= 2)
       {
         DrawCurve(output, Refine(P), col, levelsCount - 1);
         return;
@@ -104,10 +104,17 @@ namespace _069subdivision
       Pen pen = new Pen(col, lineWidth);
       pen.SetLineCap(System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.LineCap.Round, System.Drawing.Drawing2D.DashCap.Round);
 
-      for (int i = 0; i < P.Count - 1; i++)
-        //Draw.Line( output, (int)Math.Round( P[ i ].X ), (int)Math.Round( P[ i ].Y ), (int)Math.Round( P[ i + 1 ].X ), (int)Math.Round( P[ i + 1 ].Y ), col );
-        gfx.DrawLine(pen, (float)P[i].X, (float)P[i].Y, (float)P[i + 1].X, (float)P[i + 1].Y);
-      gfx.Dispose();
+      if (P.Count == 1)
+      {
+        gfx.DrawEllipse(pen, (float)P[0].X-1f, (float)P[0].Y-1f, 2f, 2f);
+      }
+      else
+      {
+        for (int i = 0; i < P.Count - 1; i++)
+          //Draw.Line( output, (int)Math.Round( P[ i ].X ), (int)Math.Round( P[ i ].Y ), (int)Math.Round( P[ i + 1 ].X ), (int)Math.Round( P[ i + 1 ].Y ), col );
+          gfx.DrawLine(pen, (float)P[i].X, (float)P[i].Y, (float)P[i + 1].X, (float)P[i + 1].Y);
+        gfx.Dispose();
+      }
       // !!!}}
     }
 

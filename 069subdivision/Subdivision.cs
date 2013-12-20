@@ -66,6 +66,29 @@ namespace _069subdivision
         showControlPolygon = value;
     }
 
+    private static List<Vector2d> RefineBSpline3(List<Vector2d> P)
+    {
+      List<Vector2d> Q = new List<Vector2d>();
+      double c = 1f/4f;
+      Q.Add(P[0]);
+      for (int i = 0; i < P.Count - 2; i++)
+      {
+        Q.Add(0.5f*P[i] + 0.5f*P[i + 1]);
+        Q.Add(0.125f * P[i] + 0.75f * P[i + 1] + 0.125f * P[i+2]);
+      }
+
+      if (P[0] == P[P.Count - 1])
+      {
+        Q.Add(0.125f * P[P.Count - 2] + 0.75f * P[0] + 0.125f * P[1]);
+        Q[0] = Q[Q.Count - 1];
+      }
+      else
+      {
+        Q.Add(P[P.Count - 1]);
+      }
+      return Q;
+    }
+
     private static List<Vector2d> Refine(List<Vector2d> P)
     {
       List<Vector2d> Q = new List<Vector2d>();
@@ -95,7 +118,7 @@ namespace _069subdivision
 
       if (levelsCount > 0 && P.Count >= 2)
       {
-        DrawCurve(output, Refine(P), col, levelsCount - 1);
+        DrawCurve(output, RefineBSpline3(P), col, levelsCount - 1);
         return;
       }
 

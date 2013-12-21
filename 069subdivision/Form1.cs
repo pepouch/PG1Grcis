@@ -111,5 +111,15 @@ namespace _069subdivision
       Subdivision.CloseUserPoints();
       doRedraw();
     }
+
+    private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      Subdivision.avgMask = (Subdivision.mask)comboBox1.SelectedIndex;
+      if (Subdivision.avgMask == Subdivision.mask.CHAIKIN)
+        trackBar1.Enabled = true;
+      else
+        trackBar1.Enabled = false;
+      doRedraw();
+    }
   }
 }

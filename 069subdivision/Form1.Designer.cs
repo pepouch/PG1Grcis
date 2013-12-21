@@ -48,6 +48,7 @@
       this.trackBar3 = new System.Windows.Forms.TrackBar();
       this.button1 = new System.Windows.Forms.Button();
       this.button2 = new System.Windows.Forms.Button();
+      this.comboBox1 = new System.Windows.Forms.ComboBox();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -120,7 +121,7 @@
       // labelElapsed
       // 
       this.labelElapsed.AutoSize = true;
-      this.labelElapsed.Location = new System.Drawing.Point(24, 284);
+      this.labelElapsed.Location = new System.Drawing.Point(140, 335);
       this.labelElapsed.Name = "labelElapsed";
       this.labelElapsed.Size = new System.Drawing.Size(48, 13);
       this.labelElapsed.TabIndex = 16;
@@ -129,7 +130,7 @@
       // trackBar1
       // 
       this.trackBar1.LargeChange = 1;
-      this.trackBar1.Location = new System.Drawing.Point(96, 88);
+      this.trackBar1.Location = new System.Drawing.Point(96, 159);
       this.trackBar1.Maximum = 60;
       this.trackBar1.Name = "trackBar1";
       this.trackBar1.Size = new System.Drawing.Size(104, 45);
@@ -140,7 +141,7 @@
       // trackBar2
       // 
       this.trackBar2.LargeChange = 1;
-      this.trackBar2.Location = new System.Drawing.Point(96, 129);
+      this.trackBar2.Location = new System.Drawing.Point(96, 200);
       this.trackBar2.Minimum = 1;
       this.trackBar2.Name = "trackBar2";
       this.trackBar2.Size = new System.Drawing.Size(104, 45);
@@ -213,7 +214,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(19, 129);
+      this.label4.Location = new System.Drawing.Point(19, 200);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(53, 13);
       this.label4.TabIndex = 19;
@@ -222,18 +223,18 @@
       // label5
       // 
       this.label5.AutoSize = true;
-      this.label5.Location = new System.Drawing.Point(12, 88);
+      this.label5.Location = new System.Drawing.Point(12, 159);
       this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(60, 13);
+      this.label5.Size = new System.Drawing.Size(75, 13);
       this.label5.TabIndex = 20;
-      this.label5.Text = "Coefficient:";
+      this.label5.Text = "Chaikin coeff.:";
       // 
       // checkBox1
       // 
       this.checkBox1.AutoSize = true;
       this.checkBox1.Checked = true;
       this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-      this.checkBox1.Location = new System.Drawing.Point(39, 221);
+      this.checkBox1.Location = new System.Drawing.Point(39, 292);
       this.checkBox1.Name = "checkBox1";
       this.checkBox1.Size = new System.Drawing.Size(128, 17);
       this.checkBox1.TabIndex = 21;
@@ -244,7 +245,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(19, 170);
+      this.label6.Location = new System.Drawing.Point(19, 241);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(58, 13);
       this.label6.TabIndex = 23;
@@ -253,7 +254,7 @@
       // trackBar3
       // 
       this.trackBar3.LargeChange = 1;
-      this.trackBar3.Location = new System.Drawing.Point(96, 170);
+      this.trackBar3.Location = new System.Drawing.Point(96, 241);
       this.trackBar3.Maximum = 20;
       this.trackBar3.Minimum = 1;
       this.trackBar3.Name = "trackBar3";
@@ -282,11 +283,27 @@
       this.button2.UseVisualStyleBackColor = true;
       this.button2.Click += new System.EventHandler(this.button2_Click);
       // 
+      // comboBox1
+      // 
+      this.comboBox1.FormattingEnabled = true;
+      this.comboBox1.Items.AddRange(new object[] {
+            "Chaikin",
+            "Cubic B-spline",
+            "Dyn-Levin-Gregory",
+            "Custom"});
+      this.comboBox1.Location = new System.Drawing.Point(44, 104);
+      this.comboBox1.Name = "comboBox1";
+      this.comboBox1.Size = new System.Drawing.Size(121, 21);
+      this.comboBox1.TabIndex = 26;
+      this.comboBox1.Text = "Chaikin";
+      this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1055, 663);
+      this.Controls.Add(this.comboBox1);
       this.Controls.Add(this.button2);
       this.Controls.Add(this.button1);
       this.Controls.Add(this.label6);
@@ -344,6 +361,7 @@
     private System.Windows.Forms.TrackBar trackBar3;
     private System.Windows.Forms.Button button1;
     private System.Windows.Forms.Button button2;
+    private System.Windows.Forms.ComboBox comboBox1;
   }
 }
 

@@ -68,6 +68,51 @@ namespace _069subdivision
         showControlPolygon = value;
     }
 
+    private static List<Vector2d> Subdivide(List<Vector2d> P)
+    {
+      List<Vector2d> Q = new List<Vector2d>();
+      Q.Add(P[0]);
+      for (int i = 0; i < P.Count - 1; i++)
+      {
+        Q.Add(0.5f * P[i] + 0.5f * P[i + 1]);
+        Q.Add(P[i + 1]);
+      }
+      return Q;
+    }
+
+    private static List<Vector2d> RefineDLG(List<Vector2d> P)
+    {
+      List<Vector2d> Q = new List<Vector2d>();
+      P = Subdivide(P);
+      int Pn = P.Count;
+      for (int i = 0; i < Pn-2; i++)
+      {
+        if (i % 2 == 0 || i < 2)
+          Q.Add(P[i]);
+        else
+        {
+          Q.Add((1f / 18f) * (-2f * P[i - 2] + 6f * P[i - 1] + 10f * P[i] + 6f * P[i + 1] - 2f * P[i + 2]));
+        }
+      }
+
+      Vector2d P3 = new Vector2d(0, 0);
+      if (Pn > 3)
+       P3 = P[3];
+
+      if (P[0] == P[Pn - 1])
+      {
+        Q.Add((1f / 18f) * (-2f * P[Pn - 4] + 6f * P[Pn - 3] + 10f * P[Pn-2] + 6f * P[Pn-1] - 2f * P[1]));
+        Q.Add(P[Pn - 1]);
+        Q[1] = (1f / 18f) * (-2f * P[Pn - 2] + 6f * P[0] + 10f * P[1] + 6f * P[2] - 2f * P3);
+      }
+      else
+      {
+        Q.Add(P[Pn - 2]);
+        Q.Add(P[Pn - 1]);
+      }
+      return Q;
+    }
+
     private static List<Vector2d> RefineBSpline3(List<Vector2d> P)
     {
       List<Vector2d> Q = new List<Vector2d>();
@@ -125,6 +170,8 @@ namespace _069subdivision
           DrawCurve(output, RefineChaikin(P), col, levelsCount - 1);
         else if (avgMask == mask.B3SPLINE)
           DrawCurve(output, RefineBSpline3(P), col, levelsCount - 1);
+        else if (avgMask == mask.DLG)
+          DrawCurve(output, RefineDLG(P), col, levelsCount - 1);
         return;
       }
 

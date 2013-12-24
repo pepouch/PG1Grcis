@@ -22,8 +22,10 @@ namespace _069subdivision
       String[] tok = "$Rev: 251 $".Split(' ');
       Text += " (rev: " + tok[1] + ')';
       Subdivision.AddUserPath();
+      Subdivision.ResetRndSeed();
       int width = (int)numericXres.Value;
       int height = (int)numericYres.Value;
+      Subdivision.GenerateDemoPoints(width, height);
       output  = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
       doRedraw();
     }
@@ -35,12 +37,14 @@ namespace _069subdivision
         buttonRedraw.Text = "Draw user input";
         Subdivision.setDrawUserPoints(false);
         checkBox2.Enabled = false;
+        button3.Enabled = true;
       }
       else
       {
         buttonRedraw.Text = "Draw demo";
         Subdivision.setDrawUserPoints(true);
         checkBox2.Enabled = true;
+        button3.Enabled = false;
       }
       doRedraw();
     }
@@ -173,6 +177,14 @@ namespace _069subdivision
       freeDraw = checkBox2.Checked;
       if (!freeDraw)
         Subdivision.AddUserPath();
+    }
+
+    private void button3_Click(object sender, EventArgs e)
+    {
+      int width = (int)numericXres.Value;
+      int height = (int)numericYres.Value;
+      Subdivision.GenerateDemoPoints(width, height);
+      doRedraw();
     }
   }
 }

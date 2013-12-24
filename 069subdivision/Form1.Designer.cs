@@ -50,6 +50,7 @@
       this.button2 = new System.Windows.Forms.Button();
       this.comboBox1 = new System.Windows.Forms.ComboBox();
       this.checkBox2 = new System.Windows.Forms.CheckBox();
+      this.button3 = new System.Windows.Forms.Button();
       this.panel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -124,7 +125,7 @@
       // labelElapsed
       // 
       this.labelElapsed.AutoSize = true;
-      this.labelElapsed.Location = new System.Drawing.Point(140, 355);
+      this.labelElapsed.Location = new System.Drawing.Point(119, 384);
       this.labelElapsed.Name = "labelElapsed";
       this.labelElapsed.Size = new System.Drawing.Size(48, 13);
       this.labelElapsed.TabIndex = 16;
@@ -293,7 +294,7 @@
             "Chaikin",
             "Cubic B-spline",
             "Dyn-Levin-Gregory",
-            "Custom"});
+            "None"});
       this.comboBox1.Location = new System.Drawing.Point(44, 104);
       this.comboBox1.Name = "comboBox1";
       this.comboBox1.Size = new System.Drawing.Size(121, 21);
@@ -313,11 +314,22 @@
       this.checkBox2.UseVisualStyleBackColor = true;
       this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
       // 
+      // button3
+      // 
+      this.button3.Location = new System.Drawing.Point(116, 350);
+      this.button3.Name = "button3";
+      this.button3.Size = new System.Drawing.Size(106, 23);
+      this.button3.TabIndex = 28;
+      this.button3.Text = "Generate points";
+      this.button3.UseVisualStyleBackColor = true;
+      this.button3.Click += new System.EventHandler(this.button3_Click);
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1055, 663);
+      this.Controls.Add(this.button3);
       this.Controls.Add(this.checkBox2);
       this.Controls.Add(this.comboBox1);
       this.Controls.Add(this.button2);
@@ -379,6 +391,7 @@
     private System.Windows.Forms.Button button2;
     private System.Windows.Forms.ComboBox comboBox1;
     private System.Windows.Forms.CheckBox checkBox2;
+    private System.Windows.Forms.Button button3;
   }
 }
 

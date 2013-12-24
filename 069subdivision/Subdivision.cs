@@ -11,20 +11,21 @@ namespace _069subdivision
     /// <summary>
     /// Separator for string parameter.
     /// </summary>
-    static readonly char COMMA = ',';
 
     static double ChaikinCoef = 0.25;
     static int nIterations = 5;
     static float lineWidth = 1f;
     static bool showControlPolygon = true;
     static List<List<Vector2d>> userPoints = new List<List<Vector2d>>();
+    static List<Vector2d> demoPoints = new List<Vector2d>();
     static bool drawUserPoints = false;
     public enum mask { CHAIKIN, B3SPLINE, DLG, CUSTOM };
     public static mask avgMask;
+    static Random rnd;
 
     public static void CloseUserPoints()
     {
-      if (userPoints.Count > 0 && userPoints[userPoints.Count-1].Count > 0)
+      if (userPoints.Count > 0 && userPoints[userPoints.Count - 1].Count > 0)
         userPoints[userPoints.Count - 1].Add(userPoints[userPoints.Count - 1][0]);
     }
 
@@ -34,24 +35,29 @@ namespace _069subdivision
       AddUserPath();
     }
 
+    public static void ResetRndSeed()
+    {
+      rnd = new Random(DateTime.UtcNow.Millisecond);
+    }
+
     public static void omitUserPoints(int n)
     {
       int nPaths = userPoints.Count;
-      int nPoints = userPoints[nPaths-1].Count;
+      int nPoints = userPoints[nPaths - 1].Count;
       Vector2d sum = new Vector2d(0, 0);
       int cnt = 0;
       for (int i = 1; i < Math.Min(nPoints, n); i++)
       {
         sum += userPoints[nPaths - 1][nPoints - 1 - i];
         cnt++;
-        userPoints[nPaths-1].RemoveAt(nPoints - 1 - i);
+        userPoints[nPaths - 1].RemoveAt(nPoints - 1 - i);
       }
-     // userPoints[nPaths - 1].Insert(userPoints[nPaths-1].Count - 2, sum * (1f/(float)cnt));
+      // userPoints[nPaths - 1].Insert(userPoints[nPaths-1].Count - 2, sum * (1f/(float)cnt));
     }
 
     public static void AddUserPoint(int x, int y)
     {
-      userPoints[userPoints.Count-1].Add(new Vector2d(x, y));
+      userPoints[userPoints.Count - 1].Add(new Vector2d(x, y));
     }
 
     public static void AddUserPath()
@@ -106,7 +112,7 @@ namespace _069subdivision
       List<Vector2d> Q = new List<Vector2d>();
       P = Subdivide(P);
       int Pn = P.Count;
-      for (int i = 0; i < Pn-2; i++)
+      for (int i = 0; i < Pn - 2; i++)
       {
         if (i % 2 == 0 || i < 2)
           Q.Add(P[i]);
@@ -118,11 +124,11 @@ namespace _069subdivision
 
       Vector2d P3 = new Vector2d(0, 0);
       if (Pn > 3)
-       P3 = P[3];
+        P3 = P[3];
 
       if (P[0] == P[Pn - 1])
       {
-        Q.Add((1f / 18f) * (-2f * P[Pn - 4] + 6f * P[Pn - 3] + 10f * P[Pn-2] + 6f * P[Pn-1] - 2f * P[1]));
+        Q.Add((1f / 18f) * (-2f * P[Pn - 4] + 6f * P[Pn - 3] + 10f * P[Pn - 2] + 6f * P[Pn - 1] - 2f * P[1]));
         Q.Add(P[Pn - 1]);
         Q[1] = (1f / 18f) * (-2f * P[Pn - 2] + 6f * P[0] + 10f * P[1] + 6f * P[2] - 2f * P3);
       }
@@ -141,13 +147,13 @@ namespace _069subdivision
       Q.Add(P[0]);
       for (int i = 0; i < P.Count - 2; i++)
       {
-        Q.Add(0.5f*P[i] + 0.5f*P[i + 1]);
-        Q.Add(0.125f * P[i] + 0.75f * P[i + 1] + 0.125f * P[i+2]);
+        Q.Add(0.5f * P[i] + 0.5f * P[i + 1]);
+        Q.Add(0.125f * P[i] + 0.75f * P[i + 1] + 0.125f * P[i + 2]);
       }
 
       if (P[0] == P[P.Count - 1])
       {
-        Q.Add(0.5f * P[P.Count-2] + 0.5f * P[P.Count-1]);
+        Q.Add(0.5f * P[P.Count - 2] + 0.5f * P[P.Count - 1]);
         Q.Add(0.125f * P[P.Count - 2] + 0.75f * P[0] + 0.125f * P[1]);
         Q[0] = Q[Q.Count - 1];
       }
@@ -203,7 +209,7 @@ namespace _069subdivision
 
       if (P.Count == 1)
       {
-        gfx.DrawEllipse(pen, (float)P[0].X-1f, (float)P[0].Y-1f, 2f, 2f);
+        gfx.DrawEllipse(pen, (float)P[0].X - 1f, (float)P[0].Y - 1f, 2f, 2f);
       }
       else
       {
@@ -238,32 +244,26 @@ namespace _069subdivision
       }
       else
       {
-        List<Vector2d> P = new List<Vector2d>();
-        P.Add(new Vector2d(width * 0.05, height * 0.06));
-        P.Add(new Vector2d(width * 0.45, height * 0.16));
-        P.Add(new Vector2d(width * 0.37, height * 0.86));
-        //P.Add( new Vector2d( width * 0.07, height * 0.86 ) );
-        P.Add(new Vector2d(width * 0.05, height * 0.06));
-
         if (showControlPolygon)
-          DrawCurve(output, P, Color.Gray);
-        DrawCurve(output, P, Color.White, nIterations);
+          DrawCurve(output, demoPoints, Color.Gray);
+        DrawCurve(output, demoPoints, Color.White, nIterations);
 
-        P.Clear();
-        P.Add(new Vector2d(width * 0.55, height * 0.76));
-        P.Add(new Vector2d(width * 0.55, height * 0.76));
-        P.Add(new Vector2d(width * 0.55, height * 0.08));
-        P.Add(new Vector2d(width * 0.75, height * 0.42));
-        P.Add(new Vector2d(width * 0.95, height * 0.08));
-        P.Add(new Vector2d(width * 0.95, height * 0.76));
-        P.Add(new Vector2d(width * 0.95, height * 0.76));
-
-        if (showControlPolygon)
-          DrawCurve(output, P, Color.DarkOrange);
-        DrawCurve(output, P, Color.Yellow, nIterations);
+        // !!!}}
       }
+    }
 
-      // !!!}}
+    public static void GenerateDemoPoints(int width, int height)
+    {
+      demoPoints.Clear();
+      Vector2d point = new Vector2d(width / 2, height / 2);
+      demoPoints.Add(point);
+
+      for (int i = 0; i < 100; i++)
+      {
+        point.X += rnd.Next(Math.Max(-width/10, (int)-point.X), Math.Min(width/10, width - (int)point.X));
+        point.Y += rnd.Next(Math.Max(-height/10, (int)-point.Y), Math.Min(height/10, (height - (int)point.Y)));
+        demoPoints.Add(point);
+      }
     }
   }
 }

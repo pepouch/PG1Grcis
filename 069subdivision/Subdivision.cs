@@ -17,25 +17,46 @@ namespace _069subdivision
     static int nIterations = 5;
     static float lineWidth = 1f;
     static bool showControlPolygon = true;
-    static List<Vector2d> userPoints = new List<Vector2d>();
+    static List<List<Vector2d>> userPoints = new List<List<Vector2d>>();
     static bool drawUserPoints = false;
     public enum mask { CHAIKIN, B3SPLINE, DLG, CUSTOM };
     public static mask avgMask;
 
     public static void CloseUserPoints()
     {
-      if (userPoints.Count > 0)
-        userPoints.Add(userPoints[0]);
+      if (userPoints.Count > 0 && userPoints[userPoints.Count-1].Count > 0)
+        userPoints[userPoints.Count - 1].Add(userPoints[userPoints.Count - 1][0]);
     }
 
     public static void ClearUserPoints()
     {
       userPoints.Clear();
+      AddUserPath();
+    }
+
+    public static void omitUserPoints(int n)
+    {
+      int nPaths = userPoints.Count;
+      int nPoints = userPoints[nPaths-1].Count;
+      Vector2d sum = new Vector2d(0, 0);
+      int cnt = 0;
+      for (int i = 1; i < Math.Min(nPoints, n); i++)
+      {
+        sum += userPoints[nPaths - 1][nPoints - 1 - i];
+        cnt++;
+        userPoints[nPaths-1].RemoveAt(nPoints - 1 - i);
+      }
+     // userPoints[nPaths - 1].Insert(userPoints[nPaths-1].Count - 2, sum * (1f/(float)cnt));
     }
 
     public static void AddUserPoint(int x, int y)
     {
-      userPoints.Add(new Vector2d(x, y));
+      userPoints[userPoints.Count-1].Add(new Vector2d(x, y));
+    }
+
+    public static void AddUserPath()
+    {
+      userPoints.Add(new List<Vector2d>());
     }
 
     public static void setDrawUserPoints(bool draw)
@@ -208,9 +229,12 @@ namespace _069subdivision
 
       if (drawUserPoints)
       {
-        if (showControlPolygon)
-          DrawCurve(output, userPoints, Color.Gray);
-        DrawCurve(output, userPoints, Color.White, nIterations);
+        for (int i = 0; i < userPoints.Count; i++)
+        {
+          if (showControlPolygon)
+            DrawCurve(output, userPoints[i], Color.Gray);
+          DrawCurve(output, userPoints[i], Color.White, nIterations);
+        }
       }
       else
       {

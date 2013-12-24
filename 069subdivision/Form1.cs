@@ -9,12 +9,22 @@ namespace _069subdivision
   public partial class Form1 : Form
   {
     protected Image outputImage = null;
+    bool freeDraw = false;
+    bool currentPath = false;
+    int skippedPoints = 0;
+    const int skippedPointsBigLimit = 20;
+    const int skippedPointsSmallLimit = 5;
+    Bitmap output;
 
     public Form1()
     {
       InitializeComponent();
       String[] tok = "$Rev: 251 $".Split(' ');
       Text += " (rev: " + tok[1] + ')';
+      Subdivision.AddUserPath();
+      int width = (int)numericXres.Value;
+      int height = (int)numericYres.Value;
+      output  = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
       doRedraw();
     }
 
@@ -24,27 +34,28 @@ namespace _069subdivision
       {
         buttonRedraw.Text = "Draw user input";
         Subdivision.setDrawUserPoints(false);
+        checkBox2.Enabled = false;
       }
       else
       {
         buttonRedraw.Text = "Draw demo";
         Subdivision.setDrawUserPoints(true);
+        checkBox2.Enabled = true;
       }
       doRedraw();
     }
 
     private void doRedraw()
     {
-      buttonSave.Enabled = false;
-      int width = (int)numericXres.Value;
-      int height = (int)numericYres.Value;
-
-      Bitmap output = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+      buttonSave.Enabled = false;      
 
       Stopwatch sw = new Stopwatch();
       sw.Start();
 
-      Subdivision.TestImage(output, textParam.Text);
+        Graphics gfx = Graphics.FromImage(output);
+        gfx.Clear(Color.Black);
+        gfx.Dispose();
+        Subdivision.TestImage(output, textParam.Text);
 
       sw.Stop();
       float elapsed = 1.0e-3f * sw.ElapsedMilliseconds;
@@ -120,6 +131,48 @@ namespace _069subdivision
       else
         trackBar1.Enabled = false;
       doRedraw();
+    }
+
+    private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+    {
+      if (!freeDraw)
+        pictureBox1_MouseClick(sender, e);
+      else
+      {
+        Subdivision.AddUserPath();
+        skippedPoints = 0;
+        currentPath = true;
+      }
+    }
+
+    private void pictureBox1_MouseUp(object sender, EventArgs e)
+    {
+      if (!freeDraw)
+        return;
+      currentPath = false;
+      skippedPoints = 0;
+    }
+
+    private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+    {
+      if (!freeDraw || !currentPath)
+        return;
+      skippedPoints++;
+      if (skippedPoints % skippedPointsSmallLimit == 0)
+        Subdivision.AddUserPoint(e.X, e.Y);
+      doRedraw();
+      if (skippedPoints > skippedPointsBigLimit)
+      {
+        Subdivision.omitUserPoints((skippedPointsBigLimit/skippedPointsSmallLimit)-1);
+        skippedPoints = 0;
+      }
+    }
+
+    private void checkBox2_CheckedChanged(object sender, EventArgs e)
+    {
+      freeDraw = checkBox2.Checked;
+      if (!freeDraw)
+        Subdivision.AddUserPath();
     }
   }
 }

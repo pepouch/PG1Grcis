@@ -1,0 +1,18 @@
+069subdivision - dokumentace
+
+Program nabízí vıbìr algoritmu:
+  * Chaikin - v tom pøípadì umoní nastavení Chaikinova koeficientu
+  * Cubic B-spline
+  * Dyn-Levin-Gregory - prochází všemi zadanımi body
+  * None - nekreslí køivku, hodí se pro pozorování control polygonu
+
+Dále je moné zvolit poèet iterací, tloušku èáry.
+
+Demo vykresluje Brownùv pohyb aproximovanı subdivision køivkou.Tlaèítko "Generate points" vygeneruje novı Brownùv pohyb.
+
+Tlaèítko "Draw user input" pøepne do módu, kdy lze øídící body zadávat ruènì.
+Pøi povolení "Free drawing" lze plynule kreslit.
+"Clear user input" smae všechny zadané body.
+"Close polygon" pøidá kontrolní bod, kterı je roven prvnímu bodu, a uzavøetí tím køivku.
+
+Textové pole "Param" nemá ádnou funkci.

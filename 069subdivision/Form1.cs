@@ -186,5 +186,13 @@ namespace _069subdivision
       Subdivision.GenerateDemoPoints(width, height);
       doRedraw();
     }
+
+    private void button4_Click(object sender, EventArgs e)
+    {
+      int width = (int)numericXres.Value;
+      int height = (int)numericYres.Value;
+      output = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+      doRedraw();
+    }
   }
 }
